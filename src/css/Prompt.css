@@ -1,0 +1,34 @@
+.state-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.state-list input[type="text"] {
+  padding: 8px;
+  border: 3px solid #ccc;
+  border-radius: 30px;
+  margin-bottom: 10px;
+  width: 200px;
+}
+
+.state-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 4px;
+  width: 250px;
+  height: 200px;
+  overflow: auto;
+}
+
+.state-list p {
+  font-family: 'Times New Roman';
+  font-size: large;
+}
+
+.state-list input[type="radio"] {
+  margin-right: 5px;
+}
