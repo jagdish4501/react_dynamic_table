@@ -3,7 +3,6 @@ import Prompt from './Prompt.js'
 import React, { useState, useEffect } from 'react'
 import { BiCabinet } from "react-icons/bi"
 
-
 const DynamicTable = ({ data }) => {
 
     const columns = Object.keys(data[0]);
@@ -24,15 +23,23 @@ const DynamicTable = ({ data }) => {
     };
     //**********************************
 
+
     //column sorting code 
     const [sortedData, setSortedData] = useState(data);
     const [sortColumn, setSortColumn] = useState(null);
+    const [order, setOrder] = useState('rnd')
     const handleSortOnClick = (columnName) => {
         let sortedTableData = [...sortedData];
         // Check if the table is already sorted by the clicked column
-        if (sortColumn === columnName) {
+        if (sortColumn === columnName && order !== 'rnd') {
             // Reverse the order of the sorted table
-            sortedTableData.reverse();
+            if (order === 'asc') {
+                sortedTableData.reverse();
+                setOrder('dec')
+            } else if (order === 'dec') {
+                sortedTableData = data;
+                setOrder('rnd')
+            }
         } else {
             // Sort the table based on the clicked column
             sortedTableData.sort((a, b) => {
@@ -40,11 +47,13 @@ const DynamicTable = ({ data }) => {
                 if (a[columnName] > b[columnName]) return 1;
                 return 0;
             });
+            setOrder('asc')
         }
         setSortedData(sortedTableData);
         setSortColumn(columnName);
     }
     //***************************
+
 
     //esc key event handler********************
     const handleKeyPress = (event) => {
@@ -71,23 +80,17 @@ const DynamicTable = ({ data }) => {
 
                 <tr className="fixed-header">
                     {columns.map((column) => (
-                        <th
-                            key={column}
-                            onClick={() => handleSortOnClick(column)}
-
-                        >
-                            {column} <BiCabinet onClick={() => handlePopUpControl(column)} />
+                        <th key={column}>
+                            <span onClick={() => handleSortOnClick(column)} >{column}</span>
+                            <BiCabinet onClick={() => handlePopUpControl(column)} />
+                            {clickedColumn != null && clickedColumn === column && <Prompt states={states} />}
                         </th>
 
                     ))}
+
+
                 </tr>
-
-                {clickedColumn !== null && (
-                    <Prompt states={states} />
-                )}
             </thead>
-
-
             <tbody>
                 {sortedData.map((item, index) => (
                     <tr key={index}>

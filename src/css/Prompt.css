@@ -15,7 +15,8 @@
   height: 200px;  
   overflow: auto;
   border: 2px solid #eeeeee;
-  border-radius: 15px;  
+  border-radius: 15px;
+  text-align: left; 
 }
 
 .state-list input[type="text"] {

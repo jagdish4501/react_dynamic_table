@@ -13,7 +13,6 @@ const Prompt = ({ states }) => {
     const filteredStates = states.filter((state) =>
         state.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
-
     return (
         <div className="state-prompt">
             <div className="state-list" >
@@ -23,21 +22,26 @@ const Prompt = ({ states }) => {
                     value={searchQuery}
                     onChange={handleSearchChange}
                 />
+
                 {
                     filteredStates.map((state) => (
-
                         <p key={state.id}>
                             <input
-                                type="radio"
+                                type="checkbox"
                                 name="state"
                                 value={state.id}
                                 checked={selectedState === state.id}
                                 onChange={handleStateChange}
                             />
-                            {state.name}
+                            {Object.keys(state).map((key) => (
+                                key !== 'id' && (
+                                    <span key={key}>{state[key]}</span>
+                                )
+                            ))}
                         </p>
                     ))
                 }
+
             </div>
         </div>
     );
