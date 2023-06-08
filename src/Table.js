@@ -10,12 +10,12 @@ const DynamicTable = ({ data }) => {
     //colum state filter
     const [clickedColumn, setClickedColumn] = useState(null);
     const [states, setStates] = useState([]);
+
     const colum_data = (key) => {
-        let i = 0;
-        return data.map((obj) => {
-            return { 'id': "id_" + i++, 'name': obj[key] };
+        return data.map((obj, index) => {
+            return { [key]: obj[key] };
         });
-    }
+    };
     const handlePopUpControl = (column) => {
         const arr = colum_data(column)
         setStates(arr);
