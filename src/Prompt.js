@@ -1,43 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import './css/Prompt.css'
-const Prompt = ({ states }) => {
+const Prompt = ({ states, data, setData, setClicketColumn }) => {
     //search filter functionality
     const [searchQuery, setSearchQuery] = useState('');
-    const [value, setValue] = useState('');
-    const [column, setColumn] = useState('')
+    const [value, setValue] = useState(null);
+    const [column, setColumn] = useState(null)
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
     };
     const handleStateChange = (event) => {
-        setValue(event.target.value);
+        setValue(event.target.value)
         setColumn(event.target.name)
-        console.log(column + "  " + value)
-    };
+    }
+
     const filteredStates = states.filter((state) => {
         for (const key in state) {
-            if (state[key].toLowerCase().includes(searchQuery.toLowerCase())) {
+            if (typeof state[key] === 'string' && state[key].toLowerCase().includes(searchQuery.toLowerCase())) {
+                return true;
+            }
+            if (typeof state[key] === 'number' && String(state[key]).toLowerCase().includes(searchQuery.toLowerCase())) {
                 return true;
             }
         }
         return false;
     });
-
     //******************************** */
-    //filter table functionality
-    // const updateStateByValue = useCallback(() => {
-    //     const updatedData = data.filter(item => {
-    //         // Check if the current item contains the desired key and value pair
-    //         for (const key in item) {
-    //             if (item[key] === value) {
-    //                 return true;
-    //             }
-    //         }
-    //         return false;
-    //     });
+    // filter table functionality
+    const updateStateByValue = useCallback(() => {
+        var updatedData = data
+        if (value !== null && column !== null) {
+            setClicketColumn(null)
+            updatedData = data.filter(item => {
+                for (const key in item) {
+                    if (key === column && item[key] === value) {
+                        return true;
+                    }
+                }
+                return false;
+            })
+        }
+        setData(updatedData);
+    }, [column, value, data, setData, setClicketColumn]);
 
-    //     setData(updatedData);
-    // }, [value, data, setData]);
+    useEffect(() => {
+        // This code will be executed after every state change
+        updateStateByValue();
+    }, [updateStateByValue]);
+
     //****************************** */
+
 
 
     return (

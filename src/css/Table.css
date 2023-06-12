@@ -1,6 +1,7 @@
 .dynamic-table {
   width: 100%;
   border-collapse: collapse;
+  z-index: 0;
 }
 
 .dynamic-table tr{

@@ -1,8 +1,8 @@
 .Table{
   margin: 10px;
-  max-height: 400px;
+  height: 400px;
   border: 3px solid #d4ddc8;
   border-radius: 30px;
-  overflow: auto;
+  overflow:auto;
   box-shadow:0 4px 8px 0 rgba(225, 214, 214, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }

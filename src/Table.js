@@ -4,21 +4,20 @@ import React, { useState, useEffect } from 'react'
 import { BiCabinet } from "react-icons/bi"
 
 const DynamicTable = ({ data }) => {
-
     const columns = Object.keys(data[0]);
-
     //colum state filter
     const [clickedColumn, setClickedColumn] = useState(null);
     const [states, setStates] = useState([]);
 
     const colum_data = (key) => {
-        return data.map((obj, index) => {
+        return data.map((obj) => {
             return { [key]: obj[key] };
         });
     };
     const handlePopUpControl = (column) => {
         const arr = colum_data(column)
         setStates(arr);
+        setSortedData(data)
         clickedColumn === column ? setClickedColumn(null) : setClickedColumn(column);
     };
     //**********************************
@@ -64,14 +63,16 @@ const DynamicTable = ({ data }) => {
 
     useEffect(() => {
         document.addEventListener('keydown', handleKeyPress);
-
         return () => {
             document.removeEventListener('keydown', handleKeyPress);
         };
-    }, []);
+
+    }, [clickedColumn]);
     //*************************** 
 
+    //on component updatedData
 
+    //************ */
 
 
     return (
@@ -83,7 +84,7 @@ const DynamicTable = ({ data }) => {
                         <th key={column}>
                             <span onClick={() => handleSortOnClick(column)} >{column}</span>
                             <BiCabinet onClick={() => handlePopUpControl(column)} />
-                            {clickedColumn != null && clickedColumn === column && <Prompt states={states} />}
+                            {clickedColumn != null && clickedColumn === column && <Prompt states={states} data={sortedData} setData={setSortedData} setClicketColumn={setClickedColumn} />}
                         </th>
 
                     ))}
