@@ -7,13 +7,15 @@
 .dynamic-table tr{
   height: 60px;
 }
-
-.dynamic-table th{
+.table-header {
+  position: relative;
   padding: 8px;
   text-align: center;
   border: 1px solid #ddd;
   font-size: small;
 }
+
+
 .dynamic-table td {
   padding: 8px;
   text-align: center;
@@ -21,13 +23,19 @@
   font-size: small;
 }
 
-.dynamic-table th {
-  position: relative;
-  cursor: pointer;
-}
 .fixed-header{
   position: sticky;
   top: 0;
   background-color: #cb9a9a;
 }
 
+.popup-container {
+  opacity: 0;
+  /* pointer-events: none; */
+}
+
+
+.table-header:hover .popup-container {
+  opacity: 1;
+  /* pointer-events: auto; */
+}

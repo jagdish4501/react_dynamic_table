@@ -17,7 +17,7 @@ const DynamicTable = ({ data }) => {
     };
     const handlePopUpControl = (column) => {
         const arr = colum_data(column)
-        setStates(arr);
+        setStates(arr)
         setSortedData(data)
         clickedColumn === column ? setClickedColumn(null) : setClickedColumn(column);
     };
@@ -71,9 +71,6 @@ const DynamicTable = ({ data }) => {
     }, [clickedColumn]);
     //*************************** 
 
-    //on component updatedData
-
-    //************ */
 
 
     return (
@@ -82,12 +79,19 @@ const DynamicTable = ({ data }) => {
 
                 <tr className="fixed-header">
                     {columns.map((column) => (
-                        <th key={column}>
-                            <span onClick={() => handleSortOnClick(column)} >{column}</span>
-                            <BiCabinet onClick={() => handlePopUpControl(column)} />
-                            {sortColumn === column && order === 'asc' && <AiOutlineArrowUp />}
-                            {sortColumn === column && order === 'desc' && <AiOutlineArrowDown />}
-                            {clickedColumn != null && clickedColumn === column && <Prompt states={states} data={sortedData} setData={setSortedData} setClicketColumn={setClickedColumn} />}
+                        <th key={column} className="table-header">
+                            <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                                <span onClick={() => handleSortOnClick(column)} >
+                                    {column}
+
+                                </span>
+                                {sortColumn === column && order === 'asc' && <AiOutlineArrowUp />}
+                                {sortColumn === column && order === 'desc' && <AiOutlineArrowDown />}
+                                <span className="popup-container">
+                                    <BiCabinet onClick={() => handlePopUpControl(column)} />
+                                </span>
+                                {clickedColumn != null && clickedColumn === column && <Prompt states={states} data={sortedData} setData={setSortedData} setClicketColumn={setClickedColumn} />}
+                            </div>
                         </th>
 
                     ))}

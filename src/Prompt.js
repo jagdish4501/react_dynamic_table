@@ -32,7 +32,7 @@ const Prompt = ({ states, data, setData, setClicketColumn }) => {
             setClicketColumn(null)
             updatedData = data.filter(item => {
                 for (const key in item) {
-                    if (key === column && item[key] === value) {
+                    if (key === column && item[key].toString() === value) {
                         return true;
                     }
                 }
