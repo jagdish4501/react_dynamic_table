@@ -2,6 +2,7 @@ import './css/Table.css'
 import Prompt from './Prompt.js'
 import React, { useState, useEffect } from 'react'
 import { BiCabinet } from "react-icons/bi"
+import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai"
 
 const DynamicTable = ({ data }) => {
     const columns = Object.keys(data[0]);
@@ -34,8 +35,8 @@ const DynamicTable = ({ data }) => {
             // Reverse the order of the sorted table
             if (order === 'asc') {
                 sortedTableData.reverse();
-                setOrder('dec')
-            } else if (order === 'dec') {
+                setOrder('desc')
+            } else if (order === 'desc') {
                 sortedTableData = data;
                 setOrder('rnd')
             }
@@ -84,6 +85,8 @@ const DynamicTable = ({ data }) => {
                         <th key={column}>
                             <span onClick={() => handleSortOnClick(column)} >{column}</span>
                             <BiCabinet onClick={() => handlePopUpControl(column)} />
+                            {sortColumn === column && order === 'asc' && <AiOutlineArrowUp />}
+                            {sortColumn === column && order === 'desc' && <AiOutlineArrowDown />}
                             {clickedColumn != null && clickedColumn === column && <Prompt states={states} data={sortedData} setData={setSortedData} setClicketColumn={setClickedColumn} />}
                         </th>
 

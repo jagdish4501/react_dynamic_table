@@ -8,11 +8,17 @@
   height: 60px;
 }
 
-.dynamic-table th,
+.dynamic-table th{
+  padding: 8px;
+  text-align: center;
+  border: 1px solid #ddd;
+  font-size: small;
+}
 .dynamic-table td {
   padding: 8px;
   text-align: center;
   border: 1px solid #ddd;
+  font-size: small;
 }
 
 .dynamic-table th {

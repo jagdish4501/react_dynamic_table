@@ -71,8 +71,9 @@ const Prompt = ({ states, data, setData, setClicketColumn }) => {
                                     value={state[key]}
                                     checked={value === state[key]}
                                     onChange={handleStateChange}
+                                    id={[key]}
                                 />
-                                <span key={key}>{state[key]}</span>
+                                <label htmlFor={[key]}>{state[key]}</label>
                             </p>
                         ))
                     )
