@@ -21,7 +21,7 @@ const DynamicTable = ({ data }) => {
         setSortedData(data)
         clickedColumn === column ? setClickedColumn(null) : setClickedColumn(column);
     };
-    //**********************************
+    //********************************************
 
 
     //column sorting code 
@@ -67,8 +67,11 @@ const DynamicTable = ({ data }) => {
         return () => {
             document.removeEventListener('keydown', handleKeyPress);
         };
-
     }, [clickedColumn]);
+    useEffect(() => {
+        setSortedData(data)
+        console.log(data)
+    }, [data]);
     //*************************** 
 
 
