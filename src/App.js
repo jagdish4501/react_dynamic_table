@@ -1,220 +1,94 @@
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import DynamicTable from './Table';
-import './css/App.css'
+import './css/App.css';
 import axios from 'axios';
-import { useState } from 'react';
 
 const App = () => {
-  const data = [
-    {
-      "stateId": 28,
-      "disComId": 87,
-      "stateName": "RAJASTHAN",
-      "disCom": "JVVNL",
-      "CircleId": 2631,
-      "circleName": "Bharatapur",
-      "circleCode": "96253",
-      "feederID": 6774995,
-      "feederCode": "1033732",
-      "FeederName": "11 KV AGHAPUR",
-      "TownName": "NA NA",
-      "JE_NAME": "GANPAT singh LODHA",
-      "MobileNo": "9413390715",
-      "consumerCount": 1147
-    },
-    {
-      "stateId": 28,
-      "disComId": 87,
-      "stateName": "RAJASTHAN",
-      "disCom": "JVVNL",
-      "CircleId": 2631,
-      "circleName": "Bharatapur",
-      "circleCode": "96253",
-      "feederID": 6774945,
-      "feederCode": "1034311",
-      "FeederName": "11 KV AKHAIGARH",
-      "TownName": "NA NA",
-      "JE_NAME": "SHIV SINGH MEENA",
-      "MobileNo": "9413390718",
-      "consumerCount": 671
-    },
-    {
-      "stateId": 28,
-      "disComId": 87,
-      "stateName": "RAJASTHAN",
-      "disCom": "JVVNL",
-      "CircleId": 2631,
-      "circleName": "Bharatapur",
-      "circleCode": "96253",
-      "feederID": 6776381,
-      "feederCode": "2263181",
-      "FeederName": "11 KV ATARI TOHILA",
-      "TownName": "NA NA",
-      "JE_NAME": "NIRBHAN SINGH",
-      "MobileNo": "9414029128",
-      "consumerCount": 10
-    },
-    {
-      "stateId": 28,
-      "disComId": 87,
-      "stateName": "RAJASTHAN",
-      "disCom": "JVVNL",
-      "CircleId": 2631,
-      "circleName": "Bharatapur",
-      "circleCode": "96253",
-      "feederID": 6774896,
-      "feederCode": "1033723",
-      "FeederName": "11 KV BACHHAMADI",
-      "TownName": "NA NA",
-      "JE_NAME": "GANPAT singh LODHA",
-      "MobileNo": "9413390715",
-      "consumerCount": 931
-    },
-    {
-      "stateId": 28,
-      "disComId": 87,
-      "stateName": "RAJASTHAN",
-      "disCom": "JVVNL",
-      "CircleId": 2631,
-      "circleName": "Bharatapur",
-      "circleCode": "96253",
-      "feederID": 6775015,
-      "feederCode": "1107883",
-      "FeederName": "11 KV BADHA",
-      "TownName": "NA NA",
-      "JE_NAME": "BHOOPENDRA SINGH",
-      "MobileNo": "9413390719",
-      "consumerCount": 365
-    },
-    {
-      "stateId": 28,
-      "disComId": 87,
-      "stateName": "RAJASTHAN",
-      "disCom": "JVVNL",
-      "CircleId": 2631,
-      "circleName": "Bharatapur",
-      "circleCode": "96253",
-      "feederID": 6775537,
-      "feederCode": "1034284",
-      "FeederName": "11 KV BAHRAMADA",
-      "TownName": "NA NA",
-      "JE_NAME": "SHIV SINGH MEENA",
-      "MobileNo": "9413390718",
-      "consumerCount": 998
-    },
-    {
-      "stateId": 28,
-      "disComId": 87,
-      "stateName": "RAJASTHAN",
-      "disCom": "JVVNL",
-      "CircleId": 2631,
-      "circleName": "Bharatapur",
-      "circleCode": "96253",
-      "feederID": 6775243,
-      "feederCode": "1034356",
-      "FeederName": "11 KV BAILARA",
-      "TownName": "NA NA",
-      "JE_NAME": "BHOOPENDRA SINGH",
-      "MobileNo": "9413390719",
-      "consumerCount": 149
-    },
-    {
-      "stateId": 28,
-      "disComId": 87,
-      "stateName": "RAJASTHAN",
-      "disCom": "JVVNL",
-      "CircleId": 2631,
-      "circleName": "Bharatapur",
-      "circleCode": "96253",
-      "feederID": 6774783,
-      "feederCode": "1033480",
-      "FeederName": "11 KV BAJARIYA",
-      "TownName": "NA NA",
-      "JE_NAME": "Abhishek Gupta",
-      "MobileNo": "9413390721",
-      "consumerCount": 2027
-    },
-    {
-      "stateId": 28,
-      "disComId": 87,
-      "stateName": "RAJASTHAN",
-      "disCom": "JVVNL",
-      "CircleId": 2631,
-      "circleName": "Bharatapur",
-      "circleCode": "96253",
-      "feederID": 6774644,
-      "feederCode": "1033744",
-      "FeederName": "11 KV BAJHERA",
-      "TownName": "NA NA",
-      "JE_NAME": "GANPAT singh LODHA",
-      "MobileNo": "9413390715",
-      "consumerCount": 738
-    },
-  ]
-  const [apiData, setApiData] = useState(data)
-  const [page_no, setPage_no] = useState(0)
-  const [map, setMap] = useState(new Map());
-  const getCustomersData = (key) => {
-    axios
-      .get(`http://localhost:3000/employees?_limit=5&_page=${key}`)
-      .then((data) => {
-        console.log("api called");
-        const temp = new Map(map);
-        temp.set(key, data.data);
-        setMap(temp);
-        setApiData(data.data);
-      })
-      .catch(error => console.log(error));
+
+  const [pageSize, setPageSize] = useState(5)
+  const [apiData, setApiData] = useState([]);
+  const [pageNo, setPageNo] = useState(1);
+  const [continuationToken, setContinuationToken] = useState(null);
+  const [dataMap, setDataMap] = useState(new Map());
+
+  const getCustomersData = (page) => {
+    if (dataMap.get(page) !== undefined) {
+      setApiData(dataMap.get(page))
+    } else
+      axios.get(`https://lumconnectdevproductmanagement.azurewebsites.net/v1/solar/getAllPlants/${pageSize}`,
+
+      )
+        .then((response) => {
+          console.log("API called");
+          const newDataMap = new Map(dataMap);
+          newDataMap.set(page, response.data.data.plantResponseList);
+          setDataMap(newDataMap);
+          setApiData(response.data.data.plantResponseList);
+          setContinuationToken(response.data.data.continuationToken)
+        })
+        .catch(error => console.log(error));
   };
-  const first_page = () => {
-    let x = map.get(0)
-    console.log(x)
-    if (x === undefined)
-      getCustomersData(0)
-    else
-      setApiData(x);
-    setPage_no(0);
-  }
-  const prev_page = () => {
-    if (page_no !== 0) {
-      let x = map.get(page_no - 1);
-      if (x === undefined)
-        getCustomersData(page_no - 1);
-      else
-        setApiData(x)
-      setPage_no(page_no - 1)
+
+  useEffect(() => {
+    getCustomersData(1)
+  }, [pageSize]);
+
+  const goToPage = (page) => {
+    getCustomersData(page)
+    setPageNo(page);
+  };
+
+  const firstPage = () => {
+    goToPage(1);
+  };
+
+  const prevPage = () => {
+    if (pageNo > 1) {
+      goToPage(pageNo - 1);
     }
-  }
-  const next_page = () => {
-    let x = map.get(page_no + 1)
-    if (x === undefined)
-      getCustomersData(page_no + 1)
-    else
-      setApiData(x)
-    setPage_no(page_no + 1)
-  }
-  const last_page = () => {
+  };
 
-  }
+  const nextPage = () => {
+    goToPage(pageNo + 1);
+  };
 
+  const lastPage = () => {
+    // Implementation 
+    if (dataMap.size === 0)
+      goToPage(1)
+    else goToPage(dataMap.size)
+  };
 
   return (
     <>
       <h1>Plant Lists</h1>
       <br />
       <div className='Table'>
-        <DynamicTable data={apiData} />
+        {apiData.length >= 1 && <DynamicTable data={apiData} />}
       </div>
       <div className="pagination">
-        <button onClick={first_page}>! first Page !</button>
-        <button onClick={prev_page}>&laquo;</button>
-        <button onClick={next_page}>&raquo;</button>
-        <button onClick={last_page}>! last Page !</button>
+        <button onClick={firstPage}>First Page</button>
+        <button onClick={prevPage}>&laquo;</button>
+        <button>page No :{pageNo}</button>
+        <button onClick={nextPage}>&raquo;</button>
+        <button onClick={lastPage}>Last Page</button>
+      </div>
+
+
+      <div className='page_sz'>
+        <span>page size</span>
+        <select
+          value={pageSize}
+          onChange=
+          {(e) => { setPageSize(Number(e.target.value)); setDataMap(new Map()); setPageNo(1) }}
+        >
+          <option value={5}>5</option>
+          <option value={10}>10</option>
+          <option value={15}>15</option>
+        </select>
       </div>
     </>
   );
 };
 
 export default App;
-

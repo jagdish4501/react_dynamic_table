@@ -70,7 +70,6 @@ const DynamicTable = ({ data }) => {
     }, [clickedColumn]);
     useEffect(() => {
         setSortedData(data)
-        console.log(data)
     }, [data]);
     //*************************** 
 
