@@ -1,16 +1,21 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './css/Prompt.css'
-const Prompt = ({ states, data, setData, setClicketColumn }) => {
+import { AiOutlineClose } from "react-icons/ai";
+const Prompt = ({ states, data, setData, setClicketColumn, value, setValue }) => {
     //search filter functionality
     const [searchQuery, setSearchQuery] = useState('');
-    const [value, setValue] = useState(null);
     const [column, setColumn] = useState(null)
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
     };
     const handleStateChange = (event) => {
-        setValue(event.target.value)
+        let temp = new Set(value);
+        if (value.has(event.target.value))
+            temp.delete(event.target.value);
+        else temp.add(event.target.value)
+        setValue(temp)
         setColumn(event.target.name)
+        console.log(event.target.checked)
     }
 
     const filteredStates = states.filter((state) => {
@@ -26,26 +31,23 @@ const Prompt = ({ states, data, setData, setClicketColumn }) => {
     });
     //******************************** */
     // filter table functionality
-    const updateStateByValue = useCallback(() => {
-        var updatedData = data
+    const [Temp] = useState(data)
+    const updateStateByValue = () => {
         if (value !== null && column !== null) {
-            setClicketColumn(null)
-            updatedData = data.filter(item => {
+            setData(Temp.filter(item => {
                 for (const key in item) {
-                    if (key === column && item[key].toString() === value) {
+                    if (key === column && value.has(item[key].toString())) {
                         return true;
                     }
                 }
                 return false;
-            })
+            }))
         }
-        setData(updatedData);
-    }, [column, value, data, setData, setClicketColumn]);
+    };
 
     useEffect(() => {
-        // This code will be executed after every state change
         updateStateByValue();
-    }, [updateStateByValue]);
+    }, [value]);
 
     //****************************** */
 
@@ -53,6 +55,7 @@ const Prompt = ({ states, data, setData, setClicketColumn }) => {
 
     return (
         <div className="state-prompt">
+            <AiOutlineClose onClick={() => { setClicketColumn(null) }} />
             <div className="state-list" >
                 <input
                     type="text"
@@ -69,11 +72,11 @@ const Prompt = ({ states, data, setData, setClicketColumn }) => {
                                     type="checkbox"
                                     name={[key]}
                                     value={state[key]}
-                                    checked={value === state[key]}
                                     onChange={handleStateChange}
-                                    id={[key]}
+                                    id={state[key]}
+                                    checked={value.has(state[key])}
                                 />
-                                <label htmlFor={[key]}>{state[key]}</label>
+                                <label htmlFor={state[key]}>{state[key]}</label>
                             </p>
                         ))
                     )

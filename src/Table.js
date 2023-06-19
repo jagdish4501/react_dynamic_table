@@ -9,16 +9,24 @@ const DynamicTable = ({ data }) => {
     //colum state filter
     const [clickedColumn, setClickedColumn] = useState(null);
     const [states, setStates] = useState([]);
-
+    const [value, setValue] = useState(new Set());
     const colum_data = (key) => {
-        return data.map((obj) => {
-            return { [key]: obj[key] };
+        const uniqueValues = new Set();
+        data.forEach((obj) => {
+            uniqueValues.add(obj[key]);
+        });
+        return Array.from(uniqueValues).map((value) => {
+            return { [key]: value };
         });
     };
     const handlePopUpControl = (column) => {
         const arr = colum_data(column)
+        const newSet = new Set(value);
+        arr.forEach(obj => {
+            newSet.add(obj[column])
+        });
+        setValue(newSet);
         setStates(arr)
-        setSortedData(data)
         clickedColumn === column ? setClickedColumn(null) : setClickedColumn(column);
     };
     //********************************************
@@ -68,6 +76,7 @@ const DynamicTable = ({ data }) => {
             document.removeEventListener('keydown', handleKeyPress);
         };
     }, [clickedColumn]);
+
     useEffect(() => {
         setSortedData(data)
     }, [data]);
@@ -92,7 +101,7 @@ const DynamicTable = ({ data }) => {
                                 <span className="popup-container">
                                     <BiCabinet onClick={() => handlePopUpControl(column)} />
                                 </span>
-                                {clickedColumn != null && clickedColumn === column && <Prompt states={states} data={sortedData} setData={setSortedData} setClicketColumn={setClickedColumn} />}
+                                {clickedColumn != null && clickedColumn === column && <Prompt states={states} data={data} setData={setSortedData} setClicketColumn={setClickedColumn} value={value} setValue={setValue} />}
                             </div>
                         </th>
 
@@ -101,7 +110,7 @@ const DynamicTable = ({ data }) => {
 
                 </tr>
             </thead>
-            <tbody>
+            <tbody onClick={() => { setClickedColumn(null) }}>
                 {sortedData.map((item, index) => (
                     <tr key={index}>
                         {columns.map((column) => (

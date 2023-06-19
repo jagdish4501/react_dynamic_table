@@ -2,29 +2,34 @@ import React, { useState, useEffect } from 'react';
 import DynamicTable from './Table';
 import './css/App.css';
 import axios from 'axios';
-
+// https://lumconnectdevproductmanagement.azurewebsites.net/v1/solar/getAllPlants/${pageSize}
 const App = () => {
 
   const [pageSize, setPageSize] = useState(5)
   const [apiData, setApiData] = useState([]);
   const [pageNo, setPageNo] = useState(1);
-  const [continuationToken, setContinuationToken] = useState(null);
+  // const [continuationToken, setContinuationToken] = useState(null);
   const [dataMap, setDataMap] = useState(new Map());
 
   const getCustomersData = (page) => {
     if (dataMap.get(page) !== undefined) {
       setApiData(dataMap.get(page))
     } else
-      axios.get(`https://lumconnectdevproductmanagement.azurewebsites.net/v1/solar/getAllPlants/${pageSize}`,
+      axios.get(`http://localhost:3000/employees?_limit=${pageSize}&_page=${pageNo}`,
 
       )
         .then((response) => {
           console.log("API called");
+          // const newDataMap = new Map(dataMap);
+          // newDataMap.set(page, response.data.data.plantResponseList);
+          // setDataMap(newDataMap);
+          // setApiData(response.data.data.plantResponseList);
+          // setContinuationToken(response.data.data.continuationToken)
           const newDataMap = new Map(dataMap);
-          newDataMap.set(page, response.data.data.plantResponseList);
+          newDataMap.set(page, response.data);
           setDataMap(newDataMap);
-          setApiData(response.data.data.plantResponseList);
-          setContinuationToken(response.data.data.continuationToken)
+          setApiData(response.data);
+
         })
         .catch(error => console.log(error));
   };
