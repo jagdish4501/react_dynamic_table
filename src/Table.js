@@ -27,6 +27,7 @@ const DynamicTable = ({ data }) => {
         });
         setValue(newSet);
         setStates(arr)
+        setSortedData(data)
         clickedColumn === column ? setClickedColumn(null) : setClickedColumn(column);
     };
     //********************************************
