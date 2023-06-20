@@ -10,12 +10,11 @@ const Prompt = ({ states, data, setData, setClicketColumn, value, setValue }) =>
     };
     const handleStateChange = (event) => {
         let temp = new Set(value);
-        if (value.has(event.target.value))
-            temp.delete(event.target.value);
-        else temp.add(event.target.value)
+        if (value.has(event.target.value.toString()))
+            temp.delete(event.target.value.toString());
+        else temp.add(event.target.value.toString())
         setValue(temp)
         setColumn(event.target.name)
-        console.log(event.target.checked)
     }
 
     const filteredStates = states.filter((state) => {
@@ -31,12 +30,12 @@ const Prompt = ({ states, data, setData, setClicketColumn, value, setValue }) =>
     });
     //******************************** */
     // filter table functionality
-    const [Temp] = useState(data)
+    // const [Temp] = useState(data)
     const updateStateByValue = () => {
         if (value !== null && column !== null) {
-            setData(Temp.filter(item => {
+            setData(data.filter(item => {
                 for (const key in item) {
-                    if (key === column && value.has(item[key].toString())) {
+                    if (key === column && item[key] && value.has((item[key].toString()))) {
                         return true;
                     }
                 }
@@ -72,9 +71,10 @@ const Prompt = ({ states, data, setData, setClicketColumn, value, setValue }) =>
                                     type="checkbox"
                                     name={[key]}
                                     value={state[key]}
+
                                     onChange={handleStateChange}
                                     id={state[key]}
-                                    checked={value.has(state[key])}
+                                    checked={value.has(state[key].toString())}
                                 />
                                 <label htmlFor={state[key]}>{state[key]}</label>
                             </p>

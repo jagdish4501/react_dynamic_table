@@ -12,22 +12,19 @@ const DynamicTable = ({ data }) => {
     const [value, setValue] = useState(new Set());
     const colum_data = (key) => {
         const uniqueValues = new Set();
-        data.forEach((obj) => {
+        sortedData.forEach((obj) => {
             uniqueValues.add(obj[key]);
         });
-        return Array.from(uniqueValues).map((value) => {
-            return { [key]: value };
-        });
+        return Array.from(uniqueValues).map((value) => { return { [key]: value }; });
     };
     const handlePopUpControl = (column) => {
         const arr = colum_data(column)
-        const newSet = new Set(value);
+        const newSet = new Set();
         arr.forEach(obj => {
             newSet.add(obj[column])
         });
-        setValue(newSet);
+        // setValue(newSet)
         setStates(arr)
-        setSortedData(data)
         clickedColumn === column ? setClickedColumn(null) : setClickedColumn(column);
     };
     //********************************************

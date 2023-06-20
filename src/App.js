@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import DynamicTable from './Table';
 import './css/App.css';
 import axios from 'axios';
-// https://lumconnectdevproductmanagement.azurewebsites.net/v1/solar/getAllPlants/${pageSize}
-// http://localhost:3000/employees?_limit=${pageSize}&_page=${pageNo}
 const App = () => {
   const [pageSize, setPageSize] = useState(5)
   const [apiData, setApiData] = useState([]);
@@ -29,10 +27,6 @@ const App = () => {
           setDataMap(newDataMap);
           setApiData(response.data.data.plantResponseList);
           setContinuationToken(response.data.data.continuationToken)
-          // const newDataMap = new Map(dataMap);
-          // newDataMap.set(page, response.data);
-          // setDataMap(newDataMap);
-          // setApiData(response.data);
 
         })
         .catch(error => console.log(error));
@@ -61,7 +55,6 @@ const App = () => {
   };
 
   const lastPage = () => {
-    // Implementation 
     if (dataMap.size === 0)
       goToPage(1)
     else goToPage(dataMap.size)
@@ -88,7 +81,7 @@ const App = () => {
         <select
           value={pageSize}
           onChange=
-          {(e) => { setPageSize(Number(e.target.value)); setDataMap(new Map()); setPageNo(1) }}
+          {(e) => { setPageSize(Number(e.target.value)); setContinuationToken(null); setDataMap(new Map()); setPageNo(1) }}
         >
           <option value={5}>5</option>
           <option value={10}>10</option>
