@@ -54,7 +54,7 @@ const Prompt = ({ states, data, setData, setClicketColumn, value, setValue }) =>
 
     return (
         <div className="state-prompt">
-            <AiOutlineClose onClick={() => { setClicketColumn(null) }} />
+            <AiOutlineClose onClick={() => { setClicketColumn(null) }} className='pointer' />
             <div className="state-list" >
                 <input
                     type="text"
@@ -75,8 +75,9 @@ const Prompt = ({ states, data, setData, setClicketColumn, value, setValue }) =>
                                     onChange={handleStateChange}
                                     id={state[key]}
                                     checked={value.has(state[key].toString())}
+                                    className='pointer'
                                 />
-                                <label htmlFor={state[key]}>{state[key]}</label>
+                                <label htmlFor={state[key]} className='pointer'>{state[key]}</label>
                             </p>
                         ))
                     )

@@ -39,3 +39,6 @@
   opacity: 1;
   /* pointer-events: auto; */
 }
+.pointer{
+  cursor: pointer;
+}

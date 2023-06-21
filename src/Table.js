@@ -1,8 +1,7 @@
 import './css/Table.css'
 import Prompt from './Prompt.js'
 import React, { useState, useEffect } from 'react'
-import { BiCabinet } from "react-icons/bi"
-import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai"
+import { AiOutlineMenu, AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai"
 
 const DynamicTable = ({ data }) => {
     const columns = Object.keys(data[0]);
@@ -43,7 +42,9 @@ const DynamicTable = ({ data }) => {
                 sortedTableData.reverse();
                 setOrder('desc')
             } else if (order === 'desc') {
-                sortedTableData = data;
+                if (sortedData.length === data.length)
+                    sortedTableData = data;
+                else sortedTableData.reverse();
                 setOrder('rnd')
             }
         } else {
@@ -90,14 +91,14 @@ const DynamicTable = ({ data }) => {
                     {columns.map((column) => (
                         <th key={column} className="table-header">
                             <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-                                <span onClick={() => handleSortOnClick(column)} >
+                                <span onClick={() => handleSortOnClick(column)} className='pointer'>
                                     {column}
 
                                 </span>
                                 {sortColumn === column && order === 'asc' && <AiOutlineArrowUp />}
                                 {sortColumn === column && order === 'desc' && <AiOutlineArrowDown />}
                                 <span className="popup-container">
-                                    <BiCabinet onClick={() => handlePopUpControl(column)} />
+                                    <AiOutlineMenu onClick={() => handlePopUpControl(column)} className='pointer' />
                                 </span>
                                 {clickedColumn != null && clickedColumn === column && <Prompt states={states} data={data} setData={setSortedData} setClicketColumn={setClickedColumn} value={value} setValue={setValue} />}
                             </div>
