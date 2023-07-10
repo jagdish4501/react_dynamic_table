@@ -13,7 +13,7 @@ const App = () => {
     if (dataMap.get(page) !== undefined) {
       setApiData(dataMap.get(page))
     } else
-      axios.get(`url`,
+      axios.get(`https://lumconnectdevproductmanagement.azurewebsites.net/v1/solar/getAllPlants/${pageSize}`,
         {
           headers: {
             'continuationToken': continuationToken
